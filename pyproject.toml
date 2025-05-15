@@ -1,0 +1,16 @@
+[project]
+name = "dify-plugin-pdm-template"
+version = "0.0.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "jingfelix", email = "jingfelix@outlook.com"},
+]
+dependencies = [
+    "dify_plugin>=0.2.1,<0.3.0",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = false
