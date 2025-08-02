@@ -1,4 +1,4 @@
-version: 0.0.1
+version: 0.0.2
 type: plugin
 author: jingfelix
 name: sandboxfusion
@@ -20,7 +20,7 @@ plugins:
   tools:
     - provider/sandboxfusion.yaml
 meta:
-  version: 0.0.1
+  version: 0.0.2
   arch:
     - amd64
     - arm64
