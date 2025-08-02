@@ -122,6 +122,6 @@ class RunCodeTool(Tool):
                 blog_message = self.response_type(
                     type=message_type,
                     message=ToolInvokeMessage.BlobMessage(blob=blob),
-                    meta={"filename": file_name, 'mime_type': mime_type},
+                    meta={"filename": file_name, "mime_type": mime_type},
                 )
                 yield blog_message
