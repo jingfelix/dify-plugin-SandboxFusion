@@ -97,12 +97,31 @@ class RunCodeTool(Tool):
         yield self.create_json_message(res.run_result.dict())
 
         if fetch_files_str:
+            IMAGE_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'}
+            IMAGE_MIME_TYPES = {
+                'jpg': 'image/jpeg',
+                'jpeg': 'image/jpeg',
+                'png': 'image/png',
+                'gif': 'image/gif',
+                'bmp': 'image/bmp',
+                'webp': 'image/webp',
+                'svg': 'image/svg+xml',
+            }
+
             for file_name, file_content in res.files.items():
-                yield self.create_blob_message(
-                    blob=(
-                        file_content.encode()
-                        if isinstance(file_content, str)
-                        else file_content
-                    ),
-                    meta={"file_name": file_name},
+                file_extension = file_name.split('.')[-1].lower() if '.' in file_name else ''
+                mime_type = IMAGE_MIME_TYPES.get(file_extension, 'application/octet-stream')
+
+                if file_extension in IMAGE_EXTENSIONS:
+                    message_type = ToolInvokeMessage.MessageType.IMAGE
+                    blob = base64.b64decode(file_content)
+                else:
+                    message_type = ToolInvokeMessage.MessageType.BLOB
+                    blob = file_content.encode() if isinstance(file_content, str) else file_content
+
+                blog_message = self.response_type(
+                    type=message_type,
+                    message=ToolInvokeMessage.BlobMessage(blob=blob),
+                    meta={"filename": file_name, 'mime_type': mime_type},
                 )
+                yield blog_message
